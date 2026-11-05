@@ -1,0 +1,27 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           kf6 1.0
+
+kf6.setup           ktextwidgets
+revision            0
+license             LGPL-2+
+description         KDE advanced text editing widgets
+long_description    {*}${description}. Part of KDE Frameworks 6.
+
+checksums           rmd160  a6dec20a715c72f287952486f8f73041afb447b6 \
+                    sha256  b122f86b179f9f9f7818a71dbcc3ce29ddac9605e55bf1d2fb885f3b8fe9c0b2 \
+                    size    2444560
+
+depends_lib-append  port:kf6-kcompletion \
+                    port:kf6-kconfig \
+                    port:kf6-ki18n \
+                    port:kf6-kwidgetsaddons \
+                    port:kf6-sonnet
+
+# "Speak text" in KTextEdit context menus; not used by Konsole
+configure.args-append \
+                    -DWITH_TEXT_TO_SPEECH:BOOL=OFF
+
+# gettext (.po) translations are compiled with msgfmt
+depends_build-append port:gettext
