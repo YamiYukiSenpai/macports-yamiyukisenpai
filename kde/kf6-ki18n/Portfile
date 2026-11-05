@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           kf6 1.0
 
 kf6.setup           ki18n
-revision            1
+revision            2
 license             LGPL-2+
 description         KDE gettext-based UI text internationalization
 long_description    {*}${description}. Part of KDE Frameworks 6.
@@ -25,6 +25,11 @@ qt6.depends_lib-append qtdeclarative
 configure.args-append \
                     -DPython3_EXECUTABLE=${prefix}/bin/python3.13 \
                     -DCMAKE_DISABLE_FIND_PACKAGE_IsoCodes:BOOL=ON
+
+# Upstream exports KF6::I18nQml (linking Qt6::QmlIntegration) without finding
+# Qt6QmlIntegration in KF6I18nConfig.cmake; consumers that don't load Qt Qml
+# first (e.g. konsole) fail at CMake generate time.
+patchfiles          patch-config-find-qmlintegration.diff
 
 # Make translations (gettext .mo and Qt .qm) from all KDE ports visible
 # (Qt on macOS never searches ${prefix}/share; see kf6-1.0.tcl)

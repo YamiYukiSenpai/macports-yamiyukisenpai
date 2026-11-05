@@ -1,0 +1,15 @@
+--- KF6I18nConfig.cmake.in.orig
++++ KF6I18nConfig.cmake.in
+@@ -5,6 +5,12 @@
+ if (@BUILD_WITH_QML@ AND NOT @BUILD_SHARED_LIBS@)
+     find_dependency(Qt6Qml @REQUIRED_QT_VERSION@)
+ endif()
++# KF6::I18nQml (exported in the same targets file) links Qt6::QmlIntegration
++# publicly; load it so consumers that never find Qt Qml themselves still
++# configure.
++if (@BUILD_WITH_QML@)
++    find_dependency(Qt6QmlIntegration @REQUIRED_QT_VERSION@)
++endif()
+ 
+ # This is no longer used by the macros, but we should keep it in case
+ # something else is using it.
