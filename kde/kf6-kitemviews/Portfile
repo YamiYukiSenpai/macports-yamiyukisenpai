@@ -1,0 +1,17 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           kf6 1.0
+
+kf6.setup           kitemviews
+revision            0
+license             LGPL-2.1+
+description         Qt 6 widget addons for item views
+long_description    {*}${description}. Part of KDE Frameworks 6.
+
+checksums           rmd160  7a36a7558ce002811d37f48c0ba899738198ce27 \
+                    sha256  cf0d9bf175619ed76cda99a20b04d349082a7c0e4bd1b2ce1dcf2631131cabcd \
+                    size    2185524
+
+# Qt-style (.qm) translations need lrelease/lconvert
+qt6.depends_build-append qttools
