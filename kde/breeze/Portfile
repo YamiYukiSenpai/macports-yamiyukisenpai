@@ -1,0 +1,56 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+# Breeze from KDE Plasma, reduced to what KF6 apps use on macOS: the Qt 6
+# widget style and the Breeze color schemes. KWin decorations, wallpapers,
+# the settings module and DBus are already skipped by upstream on macOS.
+
+PortSystem          1.0
+PortGroup           kf6 1.0
+
+name                breeze
+version             6.8.2
+revision            1
+categories          kde
+license             GPL-2+
+maintainers         nomaintainer
+
+description         Breeze widget style and color schemes for Qt 6 / KDE apps
+long_description    {*}${description}. KF6 applications such as Kate select \
+                    the Breeze style at startup and follow the system \
+                    light/dark appearance with the Breeze color schemes.
+homepage            https://invent.kde.org/plasma/breeze
+
+master_sites        https://download.kde.org/stable/plasma/${version}/
+use_xz              yes
+
+checksums           rmd160  32f2a762ae2272ca4db4ff0cbdd69f816026e4b6 \
+                    sha256  d6493c5abbcb27b6b1bc42e2e561d64218133ecd2ed56bfc42b1e25d97e216bc \
+                    size    41436812
+
+# Upstream always compiles its .po translations
+depends_build-append \
+                    port:gettext
+
+depends_lib-append  port:kf6-kcoreaddons \
+                    port:kf6-kcolorscheme \
+                    port:kf6-kconfig \
+                    port:kf6-kguiaddons \
+                    port:kf6-ki18n \
+                    port:kf6-kiconthemes \
+                    port:kf6-kwindowsystem
+
+qt6.depends_lib-append qtsvg
+
+configure.args-append \
+                    -DBUILD_QT5:BOOL=OFF \
+                    -DBUILD_CURSOR:BOOL=OFF \
+                    -DBUILD_WITH_QTQUICK:BOOL=OFF \
+                    -DCMAKE_DISABLE_FIND_PACKAGE_KF6FrameworkIntegration:BOOL=ON
+
+# Make the Breeze color schemes visible to KF6 apps
+# (Qt on macOS never searches ${prefix}/share; see kf6-1.0.tcl)
+kf6.link_appsupport color-schemes
+
+livecheck.type      regex
+livecheck.url       https://download.kde.org/stable/plasma/
+livecheck.regex     {href="(6\.[0-9]+\.[0-9]+)/"}
