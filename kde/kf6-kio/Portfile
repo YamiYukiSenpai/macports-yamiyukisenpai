@@ -1,0 +1,41 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           kf6 1.0
+
+kf6.setup           kio
+revision            1
+license             LGPL-2.1+
+description         KDE network-transparent access to files and data
+long_description    {*}${description}. Part of KDE Frameworks 6.
+
+checksums           rmd160  74aa78b2c3e1ccb26ed7d09019d762cee7232c4f \
+                    sha256  cdc8e3787be1f4a5c8f8a45fabab5cf540ef6380c549c6fd984f15f093b5eac0 \
+                    size    3619544
+
+depends_lib-append  port:kf6-kconfig \
+                    port:kf6-kcoreaddons \
+                    port:kf6-ki18n \
+                    port:kf6-kservice \
+                    port:kf6-solid \
+                    port:kf6-kcrash \
+                    port:kf6-kwindowsystem \
+                    port:kf6-kbookmarks \
+                    port:kf6-kcolorscheme \
+                    port:kf6-kcompletion \
+                    port:kf6-kguiaddons \
+                    port:kf6-kiconthemes \
+                    port:kf6-kitemviews \
+                    port:kf6-kjobwidgets \
+                    port:kf6-kwidgetsaddons
+
+configure.args-append \
+                    -DCMAKE_DISABLE_FIND_PACKAGE_KF6KDED:BOOL=ON \
+                    -DCMAKE_DISABLE_FIND_PACKAGE_ACL:BOOL=ON
+
+# gettext (.po) translations are compiled with msgfmt
+depends_build-append port:gettext
+
+# Make web search providers (kf6/searchproviders) visible to KIO
+# (Qt on macOS never searches ${prefix}/share; see kf6-1.0.tcl)
+kf6.link_appsupport kf6
