@@ -1,0 +1,26 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           kf6 1.0
+
+kf6.setup           kxmlgui
+revision            0
+license             LGPL-2.1+
+description         KDE user configurable main windows
+long_description    {*}${description}. Part of KDE Frameworks 6.
+
+checksums           rmd160  097899f1582a20a6af7c24463dc5299b95e2efb5 \
+                    sha256  048c2229a39ec717740a56b4e8b23dc2e68cefa36c4b6ab652104a0dc1a6fbd8 \
+                    size    2874628
+
+depends_lib-append  port:kf6-kcoreaddons \
+                    port:kf6-kitemviews \
+                    port:kf6-kconfig \
+                    port:kf6-kconfigwidgets \
+                    port:kf6-kguiaddons \
+                    port:kf6-ki18n \
+                    port:kf6-kiconthemes \
+                    port:kf6-kwidgetsaddons
+
+# gettext (.po) translations are compiled with msgfmt
+depends_build-append port:gettext
