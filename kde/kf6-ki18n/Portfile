@@ -1,0 +1,31 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           kf6 1.0
+
+kf6.setup           ki18n
+revision            1
+license             LGPL-2+
+description         KDE gettext-based UI text internationalization
+long_description    {*}${description}. Part of KDE Frameworks 6.
+
+checksums           rmd160  6aa1f5091fe2db58084f5948c8352a2da7ea5992 \
+                    sha256  9fa271c7a33b856451de1ed3ff105626c2763fbd3b11d3210b02cb30de43f2ba \
+                    size    3049752
+
+# ki18n records this interpreter in its installed CMake macros
+depends_build-append \
+                    port:python313 \
+                    port:gettext
+
+depends_lib-append  path:lib/libintl.dylib:gettext-runtime
+
+qt6.depends_lib-append qtdeclarative
+
+configure.args-append \
+                    -DPython3_EXECUTABLE=${prefix}/bin/python3.13 \
+                    -DCMAKE_DISABLE_FIND_PACKAGE_IsoCodes:BOOL=ON
+
+# Make translations (gettext .mo and Qt .qm) from all KDE ports visible
+# (Qt on macOS never searches ${prefix}/share; see kf6-1.0.tcl)
+kf6.link_appsupport locale
