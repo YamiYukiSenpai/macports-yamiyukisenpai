@@ -1,0 +1,21 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           kf6 1.0
+
+kf6.setup           kbookmarks
+revision            0
+license             LGPL-2.1+
+description         Qt 6 library for bookmarks and the XBEL format
+long_description    {*}${description}. Part of KDE Frameworks 6.
+
+checksums           rmd160  ab24acc1eb1f8efad70a93a3973d09dff26f87eb \
+                    sha256  2d2c53c07fbc813e891bbc95a3ff4828c9e8e348e84a0d94fc2b69adf5897f55 \
+                    size    1094120
+
+depends_lib-append  port:kf6-kconfig \
+                    port:kf6-kcoreaddons \
+                    port:kf6-kwidgetsaddons
+
+# Qt-style (.qm) translations need lrelease/lconvert
+qt6.depends_build-append qttools
