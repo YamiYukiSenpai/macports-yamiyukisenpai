@@ -1,0 +1,22 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           kf6 1.0
+
+kf6.setup           breeze-icons
+revision            0
+license             LGPL-3+
+description         Breeze icon theme and icon resource library
+long_description    {*}${description}. Part of KDE Frameworks 6.
+
+checksums           rmd160  c93db970d0a77096db368d7310a6c14d08834c91 \
+                    sha256  82ab1c13f782cb37176e7c13c5fb2c77536a65f24b85d09127f3575f917fb56d \
+                    size    2108004
+
+# Kate loads icons from the compiled-in library (KF6BreezeIcons); the loose
+# theme files are not used on macOS. 24px generation needs Python + lxml.
+configure.args-append \
+                    -DWITH_ICONS_LIBRARY:BOOL=ON \
+                    -DSKIP_INSTALL_ICONS:BOOL=ON \
+                    -DWITH_ICON_GENERATION:BOOL=OFF \
+                    -DCMAKE_DISABLE_FIND_PACKAGE_Python:BOOL=ON
