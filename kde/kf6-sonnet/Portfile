@@ -1,0 +1,25 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           kf6 1.0
+
+kf6.setup           sonnet
+revision            0
+license             LGPL-2.1+
+description         KDE spelling framework
+long_description    {*}${description}. Part of KDE Frameworks 6.
+
+checksums           rmd160  cf46d71e619746ceec19831cbc7a666c8875d45f \
+                    sha256  8a0db04df7c8d9d386dddc2e5d94f1504b15c63b3dc091a4eeb2519788b5aec6 \
+                    size    2414080
+
+# Use the native macOS NSSpellChecker backend only
+configure.args-append \
+                    -DCMAKE_DISABLE_FIND_PACKAGE_ASPELL:BOOL=ON \
+                    -DCMAKE_DISABLE_FIND_PACKAGE_HSPELL:BOOL=ON \
+                    -DCMAKE_DISABLE_FIND_PACKAGE_HUNSPELL:BOOL=ON \
+                    -DCMAKE_DISABLE_FIND_PACKAGE_VOIKKO:BOOL=ON \
+                    -DSONNET_USE_QML:BOOL=OFF
+
+# Qt-style (.qm) translations need lrelease/lconvert
+qt6.depends_build-append qttools
