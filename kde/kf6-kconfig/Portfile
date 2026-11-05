@@ -1,0 +1,20 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           kf6 1.0
+
+kf6.setup           kconfig
+revision            0
+license             LGPL-2.1+
+description         KDE configuration system for Qt 6
+long_description    {*}${description}. Part of KDE Frameworks 6.
+
+checksums           rmd160  6bf80e9b2cb8efcf785e928375277dfec9e8a3d5 \
+                    sha256  5572e3e098f7cf5d06c78cd941924333c0e84646d2a18aa6b4c9a6f7eae8a5c9 \
+                    size    394396
+
+# QML bindings are unused by Kate
+configure.args-append -DKCONFIG_USE_QML:BOOL=OFF
+
+# Qt-style (.qm) translations need lrelease/lconvert
+qt6.depends_build-append qttools
