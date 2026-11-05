@@ -1,0 +1,35 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           kf6 1.0
+
+kf6.setup           knewstuff
+revision            0
+license             LGPL-2.1+
+description         KDE framework for downloading and sharing additional application data
+long_description    {*}${description}. Part of KDE Frameworks 6.
+
+checksums           rmd160  260bfeb4c6a0810ad6a59efeda7a4c26659b71e2 \
+                    sha256  c944c39ea454b956d0a71e6fe3d790aea46bd38447ea231ca21f3167f8dc1252 \
+                    size    3048836
+
+depends_lib-append  port:kf6-karchive \
+                    port:kf6-kconfig \
+                    port:kf6-kcoreaddons \
+                    port:kf6-ki18n \
+                    port:kf6-kpackage \
+                    port:kf6-kwidgetsaddons \
+                    port:kf6-attica \
+                    port:kf6-kirigami
+
+# The "Get New..." dialog is QML importing org.kde.kcmutils
+depends_run-append  port:kf6-kcmutils
+
+qt6.depends_lib-append qtdeclarative
+
+# RSS/Atom feed support for knewstuff providers (not used by Kate/Konsole)
+configure.args-append \
+                    -DCMAKE_DISABLE_FIND_PACKAGE_KF6Syndication:BOOL=ON
+
+# gettext (.po) translations are compiled with msgfmt
+depends_build-append port:gettext
