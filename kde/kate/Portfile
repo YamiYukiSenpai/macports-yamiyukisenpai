@@ -1,0 +1,109 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+# Local override of the official kate port (stuck at KDE4-era 4.14.3 on Qt4).
+# This builds Kate from KDE Gear on Qt 6 / KDE Frameworks 6.
+
+PortSystem          1.0
+PortGroup           kf6 1.0
+
+name                kate
+version             26.08.2
+revision            2
+categories          kde editors
+license             LGPL-2+ GPL-2+
+maintainers         nomaintainer
+
+description         Advanced text editor by KDE
+long_description    Kate is a multi-document, multi-view text editor by KDE with \
+                    syntax highlighting for hundreds of languages, an LSP client, \
+                    project management, terminal-less build integration, git \
+                    integration and a plugin system.
+homepage            https://kate-editor.org
+
+master_sites        https://download.kde.org/stable/release-service/${version}/src/
+use_xz              yes
+
+checksums           rmd160  8015424af733b389228953e0fa6b0876c622a5ea \
+                    sha256  6fad08032362300d8de646c6d45f11dac72c9c7c6dfea2261c844a42a17a8652 \
+                    size    8719216
+
+depends_build-append \
+                    port:gettext
+
+depends_lib-append  path:lib/libintl.dylib:gettext-runtime \
+                    port:kf6-karchive \
+                    port:kf6-kbookmarks \
+                    port:kf6-kconfig \
+                    port:kf6-kcoreaddons \
+                    port:kf6-kcrash \
+                    port:kf6-kguiaddons \
+                    port:kf6-ki18n \
+                    port:kf6-kiconthemes \
+                    port:kf6-kio \
+                    port:kf6-ktexteditor \
+                    port:kf6-kwidgetsaddons \
+                    port:kf6-kwindowsystem \
+                    port:kf6-knewstuff \
+                    port:qtkeychain-qt6
+
+# The RBQL (CSV query) plugin links Qt Qml directly
+qt6.depends_lib-append qtdeclarative
+
+# Kate selects the Breeze widget style and Breeze Light/Dark color schemes
+# at startup; without them it falls back to the plain macOS style.
+depends_run-append  port:breeze
+
+# Plugins loaded at runtime:
+#   terminal panel  -> konsolepart (konsole)
+#   Document Preview of Markdown -> markdownpart
+#   SQL plugin      -> Qt SQL drivers (SQLite by default; see variants)
+depends_run-append  port:konsole \
+                    port:markdownpart \
+                    port:qt6-sqlite-plugin
+
+variant mysql description {SQL plugin: support MySQL/MariaDB databases} {
+    depends_run-append  port:qt6-mysql-plugin
+}
+
+variant psql description {SQL plugin: support PostgreSQL databases} {
+    depends_run-append  port:qt6-psql-plugin
+}
+
+# patch-bundle-plist.diff: make Kate a recommended (not automatic default)
+# app for text files in Finder's "Open With", and claim common text
+# extensions macOS doesn't classify as text. Replaces upstream's
+# non-functional catch-all entry.
+# patch-rbql-find-qml.diff: the RBQL plugin uses Qt::Qml without finding it;
+# upstream relies on a framework's QML integration (disabled here) to load it.
+patchfiles          patch-bundle-plist.diff \
+                    patch-rbql-find-qml.diff
+
+# Optional plugins whose dependencies are not part of this tree:
+# GPG (gpgme++), user feedback telemetry.
+configure.args-append \
+                    -DCMAKE_DISABLE_FIND_PACKAGE_Gpgmepp:BOOL=ON \
+                    -DCMAKE_DISABLE_FIND_PACKAGE_KF6UserFeedback:BOOL=ON \
+                    -DBUILD_kwrite:BOOL=OFF
+
+# Kate installs as an app bundle in ${applications_dir}; add a CLI launcher.
+post-destroot {
+    xinstall -d ${destroot}${prefix}/bin
+    ln -s ${applications_dir}/kate.app/Contents/MacOS/kate ${destroot}${prefix}/bin/kate
+}
+
+# post-activate runs as root, and Launch Services databases are per-user, so
+# registration is left to macOS (it scans /Applications) with a manual fallback.
+notes "
+If Kate does not appear under Finder's \"Open With\" for text files, register it
+for your user (run without sudo):
+
+  /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -f ${applications_dir}/kate.app
+"
+
+# XML completion data and project templates (installed by kio, kparts, ktexteditor)
+# (Qt on macOS never searches ${prefix}/share; see kf6-1.0.tcl)
+kf6.link_appsupport katexmltools kdevappwizard
+
+livecheck.type      regex
+livecheck.url       https://download.kde.org/stable/release-service/
+livecheck.regex     {href="([0-9]+\.[0-9]+\.[0-9]+)/"}
