@@ -1,0 +1,31 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           kf6 1.0
+
+kf6.setup           kcmutils
+revision            0
+license             LGPL-2+
+description         KDE utilities for working with configuration modules
+long_description    {*}${description}. Part of KDE Frameworks 6.
+
+checksums           rmd160  a875bbeed1762ff826766d85dc4238154be7fb7f \
+                    sha256  e7c96296f2cc31b68c323559890df1e197dcb9c663822682dc97737c1b811610 \
+                    size    2403328
+
+depends_lib-append  port:kf6-kio \
+                    port:kf6-kitemviews \
+                    port:kf6-kconfigwidgets \
+                    port:kf6-kcoreaddons \
+                    port:kf6-kguiaddons \
+                    port:kf6-ki18n \
+                    port:kf6-kxmlgui \
+                    port:kf6-kwidgetsaddons
+
+# The org.kde.kcmutils QML module imports org.kde.kirigami
+depends_run-append  port:kf6-kirigami
+
+qt6.depends_lib-append qtdeclarative
+
+# gettext (.po) translations are compiled with msgfmt
+depends_build-append port:gettext
