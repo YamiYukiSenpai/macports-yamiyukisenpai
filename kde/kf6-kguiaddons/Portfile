@@ -1,0 +1,18 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           kf6 1.0
+
+kf6.setup           kguiaddons
+revision            0
+license             LGPL-2.1+
+description         Qt 6 addons to QtGui
+long_description    {*}${description}. Part of KDE Frameworks 6.
+
+checksums           rmd160  c8cce79495fd10b09f4da99ce43c6d9e13be373f \
+                    sha256  d440bbe350282b03c828d5987a6db1f0a4f5d87a528907bf19e1e5bb76d4b219 \
+                    size    97416
+
+configure.args-append \
+                    -DWITH_WAYLAND:BOOL=OFF \
+                    -DBUILD_GEO_SCHEME_HANDLER:BOOL=OFF
