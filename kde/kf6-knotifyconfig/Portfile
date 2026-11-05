@@ -1,0 +1,28 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           kf6 1.0
+
+kf6.setup           knotifyconfig
+revision            0
+license             LGPL-2
+description         KDE configuration dialog for notifications
+long_description    {*}${description}. Part of KDE Frameworks 6.
+
+checksums           rmd160  35ed485ef40b57e927b31dd26d720f4eca2bb29a \
+                    sha256  185b326c746ee983c9dc19ff19cd40205f9be9dcd2b41e6619015f85abcc47e6 \
+                    size    2318580
+
+depends_lib-append  port:kf6-kcompletion \
+                    port:kf6-kconfig \
+                    port:kf6-ki18n \
+                    port:kf6-kio
+
+# Notification sound previews use Qt Multimedia instead of libcanberra
+qt6.depends_lib-append qtmultimedia
+
+configure.args-append \
+                    -DCMAKE_DISABLE_FIND_PACKAGE_Canberra:BOOL=ON
+
+# gettext (.po) translations are compiled with msgfmt
+depends_build-append port:gettext
