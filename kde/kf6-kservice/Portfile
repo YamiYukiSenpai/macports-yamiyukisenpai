@@ -1,0 +1,21 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           kf6 1.0
+
+kf6.setup           kservice
+revision            0
+license             LGPL-2.1+
+description         KDE plugin framework for desktop services
+long_description    {*}${description}. Part of KDE Frameworks 6.
+
+checksums           rmd160  d0a85f57e86d1f0dc13838379267135d239b855a \
+                    sha256  a3e6964ca12aae984f3600fb439c1a906ffe8fecc2111fbfa3fb00052d566e23 \
+                    size    2375548
+
+depends_lib-append  port:kf6-kconfig \
+                    port:kf6-kcoreaddons \
+                    port:kf6-ki18n
+
+# gettext (.po) translations are compiled with msgfmt
+depends_build-append port:gettext
