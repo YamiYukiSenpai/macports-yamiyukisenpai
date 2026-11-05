@@ -1,0 +1,17 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           kf6 1.0
+
+kf6.setup           kcodecs
+revision            0
+license             LGPL-2.1+
+description         Qt 6 library for string manipulation and text encodings
+long_description    {*}${description}. Part of KDE Frameworks 6.
+
+checksums           rmd160  88a0c784497b40875bdf302b69cebb16f568c8c7 \
+                    sha256  2d889f4afd881ae3bc532753c7a2758f45842d4ca828a171d52c8f396128d081 \
+                    size    2482788
+
+# Qt-style (.qm) translations need lrelease/lconvert
+qt6.depends_build-append qttools
