@@ -1,0 +1,23 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           kf6 1.0
+
+kf6.setup           knotifications
+revision            1
+license             LGPL-2.1+
+description         KDE desktop notifications abstraction
+long_description    {*}${description}. Part of KDE Frameworks 6.
+
+checksums           rmd160  0209a21c8e02941454db63fa37f384bfa86a916f \
+                    sha256  34a9a071585bc3e0993ab19c9a9c7dd4813f5a6104b7b0a470e007f258beaf76 \
+                    size    67668
+
+depends_lib-append  port:kf6-kconfig
+
+# Optional QML plugin is unused by Kate
+configure.args-append -DCMAKE_DISABLE_FIND_PACKAGE_Qt6Qml:BOOL=ON
+
+# Make apps' notification definitions (.notifyrc) visible
+# (Qt on macOS never searches ${prefix}/share; see kf6-1.0.tcl)
+kf6.link_appsupport knotifications6
