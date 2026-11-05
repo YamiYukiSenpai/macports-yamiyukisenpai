@@ -1,0 +1,15 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           kf6 1.0
+
+kf6.setup           attica
+revision            0
+license             LGPL-2.1+
+description         Qt 6 library for the Open Collaboration Services API
+long_description    {*}${description}. Part of KDE Frameworks 6.
+
+checksums           rmd160  91a7de5e6ca77e8e55c9695892d1865490424ab6 \
+                    sha256  5699601e3a957e1eebf8fbe8b1f3d908df3c0a775919bc796b0830b34b59a67d \
+                    size    68524
+
