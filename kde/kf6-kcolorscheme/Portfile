@@ -1,0 +1,21 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           kf6 1.0
+
+kf6.setup           kcolorscheme
+revision            0
+license             LGPL-2.1+
+description         KDE color scheme handling for Qt 6
+long_description    {*}${description}. Part of KDE Frameworks 6.
+
+checksums           rmd160  f13a150f71de8c1c116ecd58ae73b16607d18c11 \
+                    sha256  41a8b12a4d9f4fdada70e4853879a2f43a7bf43e870a18c6038eebd956a1f863 \
+                    size    51872
+
+depends_lib-append  port:kf6-kconfig \
+                    port:kf6-kguiaddons \
+                    port:kf6-ki18n
+
+# gettext (.po) translations are compiled with msgfmt
+depends_build-append port:gettext
