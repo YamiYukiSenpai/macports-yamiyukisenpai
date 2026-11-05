@@ -1,0 +1,74 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+# Local override of the official konsole port (stuck at KDE4-era 4.14.3).
+# Builds Konsole from KDE Gear on Qt 6 / KDE Frameworks 6. Besides the app,
+# this provides konsolepart, which Kate's terminal panel embeds.
+
+PortSystem          1.0
+PortGroup           kf6 1.0
+
+name                konsole
+version             26.08.2
+revision            0
+categories          kde sysutils
+license             GPL-2+
+maintainers         nomaintainer
+
+description         Terminal emulator by KDE
+long_description    Konsole is a terminal emulator by KDE with tabs, split \
+                    views, profiles and bookmarks. It also provides the \
+                    terminal component embedded by Kate and other KDE apps.
+homepage            https://konsole.kde.org
+
+master_sites        https://download.kde.org/stable/release-service/${version}/src/
+use_xz              yes
+
+checksums           rmd160  a1c5816c150d2e17169a95705146909aa7de316e \
+                    sha256  2154a03a952c29be435defffd4c88f9d2eff44a55cdfa33b16a8fc7bfd978217 \
+                    size    1980280
+
+# gettext (.po) translations are compiled with msgfmt
+depends_build-append \
+                    port:gettext
+
+depends_lib-append  port:icu \
+                    port:kf6-kbookmarks \
+                    port:kf6-kconfig \
+                    port:kf6-kconfigwidgets \
+                    port:kf6-kcoreaddons \
+                    port:kf6-kcrash \
+                    port:kf6-kguiaddons \
+                    port:kf6-ki18n \
+                    port:kf6-kiconthemes \
+                    port:kf6-kio \
+                    port:kf6-knewstuff \
+                    port:kf6-knotifications \
+                    port:kf6-knotifyconfig \
+                    port:kf6-kparts \
+                    port:kf6-kpty \
+                    port:kf6-kservice \
+                    port:kf6-ktextwidgets \
+                    port:kf6-kwidgetsaddons \
+                    port:kf6-kwindowsystem \
+                    port:kf6-kxmlgui
+
+qt6.depends_lib-append qtmultimedia
+
+# Konsole uses the Breeze widget style like other KF6 apps
+depends_run-append  port:breeze
+
+# Upstream already skips DBus, global shortcuts, X11 and libssh on macOS.
+# Container integration (Kapsule) is off by default.
+configure.args-append \
+                    -DICU_ROOT:PATH=${prefix}
+
+# Konsole installs as an app bundle in ${applications_dir}; add a CLI launcher.
+# Its own color schemes, keyboard layouts and knsrc file are compiled in.
+post-destroot {
+    xinstall -d ${destroot}${prefix}/bin
+    ln -s ${applications_dir}/konsole.app/Contents/MacOS/konsole ${destroot}${prefix}/bin/konsole
+}
+
+livecheck.type      regex
+livecheck.url       https://download.kde.org/stable/release-service/
+livecheck.regex     {href="([0-9]+\.[0-9]+\.[0-9]+)/"}
