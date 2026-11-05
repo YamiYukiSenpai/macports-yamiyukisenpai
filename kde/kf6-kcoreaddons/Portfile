@@ -1,0 +1,21 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           kf6 1.0
+
+kf6.setup           kcoreaddons
+revision            1
+license             LGPL-2.1+
+description         Qt 6 addon library with a collection of non-GUI utilities
+long_description    {*}${description}. Part of KDE Frameworks 6.
+
+checksums           rmd160  655f6ad7cf043b99904b43a5f38a9b8b632a03d7 \
+                    sha256  d3a843249177a6e51714a7211c73829cb071dbebe4f30404423bbbc57ca5ee95 \
+                    size    2528316
+
+# The org.kde.coreaddons QML module is imported by knewstuff's
+# "Get New..." dialog
+qt6.depends_lib-append qtdeclarative
+
+# Qt-style (.qm) translations need lrelease/lconvert
+qt6.depends_build-append qttools
