@@ -1,0 +1,25 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           kf6 1.0
+
+kf6.setup           kconfigwidgets
+revision            0
+license             LGPL-2.1+
+description         KDE widgets for configuration dialogs
+long_description    {*}${description}. Part of KDE Frameworks 6.
+
+checksums           rmd160  a2fcc9a1b4402820fb2c0a34d949584845de0417 \
+                    sha256  a9aa37565702ac1353c36cf16cc968c8aa336d33bcab9d0ff5419dd0b1dc92df \
+                    size    2494412
+
+depends_lib-append  port:kf6-kcoreaddons \
+                    port:kf6-kcodecs \
+                    port:kf6-kconfig \
+                    port:kf6-kguiaddons \
+                    port:kf6-ki18n \
+                    port:kf6-kwidgetsaddons \
+                    port:kf6-kcolorscheme
+
+# gettext (.po) translations are compiled with msgfmt
+depends_build-append port:gettext
