@@ -1,0 +1,25 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           kf6 1.0
+
+kf6.setup           kirigami
+revision            0
+license             LGPL-2+
+description         KDE QtQuick-based components set for convergent applications
+long_description    {*}${description}. Part of KDE Frameworks 6.
+
+checksums           rmd160  4dbffd00f00a1e5e4bcfed530b1f20cb6ec3cb55 \
+                    sha256  811a8a150e636216269c0346e62470997fa282113a39e32b2d332bd5969926f0 \
+                    size    687232
+
+qt6.depends_lib-append \
+                    qtdeclarative \
+                    qtsvg \
+                    qtshadertools
+
+configure.args-append \
+                    -DCMAKE_DISABLE_FIND_PACKAGE_OpenMP:BOOL=ON
+
+# Qt-style (.qm) translations need lrelease/lconvert
+qt6.depends_build-append qttools
