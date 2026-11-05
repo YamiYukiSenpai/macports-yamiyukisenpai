@@ -1,0 +1,17 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           kf6 1.0
+
+kf6.setup           kwidgetsaddons
+revision            0
+license             LGPL-2.1+
+description         Large set of addon widgets for Qt 6
+long_description    {*}${description}. Part of KDE Frameworks 6.
+
+checksums           rmd160  17b3d82d71f325507bf4203074c03cb21814e429 \
+                    sha256  94d1a1ba334a383c38b7f4238d93895ddd2b40f3d6511b16937bc951b542b5a5 \
+                    size    4227636
+
+# Qt-style (.qm) translations need lrelease/lconvert
+qt6.depends_build-append qttools
