@@ -9,6 +9,7 @@ My personal MacPorts ports for software that is either outdated or missing in th
 | `kate`, `konsole` | KDE apps on Qt 6 / KDE Frameworks 6. Override the official KDE4-era 4.14.3 ports. |
 | `markdownpart`, `breeze` | Supporting KDE components (Markdown preview for Kate, Breeze widget style and color schemes). |
 | `kf6-*`, `kde-extra-cmake-modules` | KDE Frameworks 6, shared by the KDE apps. `kde-extra-cmake-modules` overrides the official 5.x port. |
+| `sonora` | Native music streaming client, built from source. Shaders compile at launch by default; `+metal` precompiles them and needs Xcode's Metal Toolchain (`xcodebuild -downloadComponent MetalToolchain`). Cargo fetches its git-pinned dependencies during the build. |
 
 ## KDE ports
 
